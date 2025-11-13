@@ -1,0 +1,31 @@
+
+## Additional GitHub Configuration Files
+
+### `_config.yml` (for GitHub Pages)
+```yaml
+title: "Binary Trading Platform"
+description: "Professional binary options trading platform with demo broker integration"
+baseurl: "/binary-trading-platform"
+url: "https://your-username.github.io"
+
+# Build settings
+markdown: kramdown
+theme: jekyll-theme-cayman
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+# Custom settings
+repository: "your-username/binary-trading-platform"
+show_downloads: false
+google_analytics: false
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
