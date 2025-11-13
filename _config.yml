@@ -5,7 +5,7 @@
 ```yaml
 title: "Binary Trading Platform"
 description: "Professional binary options trading platform with demo broker integration"
-baseurl: "/binary-trading-platform"
+baseurl: "/astrobitplako"
 url: "https://astromub.github.io"
 
 # Build settings
