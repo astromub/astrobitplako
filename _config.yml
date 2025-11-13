@@ -1,8 +1,3 @@
-
-## Additional GitHub Configuration Files
-
-### `_config.yml` (for GitHub Pages)
-```yaml
 title: "Binary Trading Platform"
 description: "Professional binary options trading platform with demo broker integration"
 baseurl: "/astrobitplako"
