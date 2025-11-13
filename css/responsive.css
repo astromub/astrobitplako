@@ -1,0 +1,43 @@
+@media (max-width: 1200px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            "stats"
+            "trading"
+            "quick"
+            "market"
+            "positions";
+    }
+    
+    .stat-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+        grid-template-rows: 70px auto 1fr;
+        grid-template-areas: 
+            "header"
+            "sidebar"
+            "main";
+    }
+    
+    .stat-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .trading-controls {
+        grid-template-columns: 1fr;
+    }
+    
+    .sidebar {
+        border-right: none;
+        border-bottom: 1px solid #334155;
+    }
+    
+    .market-grid {
+        grid-template-columns: 1fr;
+    }
+}
