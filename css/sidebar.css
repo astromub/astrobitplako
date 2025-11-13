@@ -1,0 +1,33 @@
+.sidebar {
+    grid-area: sidebar;
+    background: #1e293b;
+    border-right: 1px solid #334155;
+    padding: 20px 0;
+    overflow-y: auto;
+}
+
+.nav-item {
+    padding: 14px 25px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+    margin: 5px 0;
+}
+
+.nav-item:hover {
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.nav-item.active {
+    background: rgba(59, 130, 246, 0.15);
+    color: #60a5fa;
+    border-left-color: #3b82f6;
+}
+
+.nav-item i {
+    width: 20px;
+    text-align: center;
+}
