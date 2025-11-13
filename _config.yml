@@ -6,7 +6,7 @@
 title: "Binary Trading Platform"
 description: "Professional binary options trading platform with demo broker integration"
 baseurl: "/binary-trading-platform"
-url: "https://your-username.github.io"
+url: "https://astromub.github.io"
 
 # Build settings
 markdown: kramdown
@@ -16,7 +16,7 @@ plugins:
   - jekyll-sitemap
 
 # Custom settings
-repository: "your-username/binary-trading-platform"
+repository: "astromub/astrobitplako"
 show_downloads: false
 google_analytics: false
 
