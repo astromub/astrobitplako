@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Pro - Professional Trading Platform</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.0.4/build/global/luxon.min.js"></script>
+</head>
+<body>
+    <!-- Header Component -->
+    <div id="header-container"></div>
+    
+    <!-- Main Dashboard -->
+    <div class="dashboard">
+        <!-- Sidebar Component -->
+        <div id="sidebar-container"></div>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Content sections will be loaded here -->
+            <div id="content-container"></div>
+        </main>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- JavaScript Files -->
+    <script src="js/utils.js"></script>
+    <script src="js/broker-api.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/strategies.js"></script>
+    <script src="js/trading-platform.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
