@@ -1,0 +1,263 @@
+<div class="content-section" id="settings-section">
+    <h2>Settings</h2>
+    
+    <div class="settings-panel">
+        <h3>Trading Preferences</h3>
+        <div class="settings-option">
+            <span>Auto-execute trades</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="auto-trade" checked>
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+        <div class="settings-option">
+            <span>Sound notifications</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="sound-notifications" checked>
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+        <div class="settings-option">
+            <span>Risk management alerts</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="risk-alerts">
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+        <div class="settings-option">
+            <span>Email notifications</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="email-notifications">
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+        <div class="settings-option">
+            <span>One-click trading</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="one-click-trading">
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+    </div>
+    
+    <div class="settings-panel">
+        <h3>Account Settings</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div>
+                <div class="form-group">
+                    <label for="account-currency">Default Currency</label>
+                    <select id="account-currency">
+                        <option>USD - US Dollar</option>
+                        <option>EUR - Euro</option>
+                        <option>GBP - British Pound</option>
+                        <option>JPY - Japanese Yen</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="time-zone">Time Zone</label>
+                    <select id="time-zone">
+                        <option>UTC-5 (EST) - New York</option>
+                        <option>UTC-8 (PST) - Los Angeles</option>
+                        <option>UTC+0 (GMT) - London</option>
+                        <option>UTC+1 (CET) - Paris</option>
+                        <option>UTC+8 (CST) - Beijing</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <div class="form-group">
+                    <label for="language">Language</label>
+                    <select id="language">
+                        <option>English</option>
+                        <option>Spanish</option>
+                        <option>French</option>
+                        <option>German</option>
+                        <option>Chinese</option>
+                        <option>Japanese</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="theme">Theme</label>
+                    <select id="theme">
+                        <option>Dark</option>
+                        <option>Light</option>
+                        <option>Auto (System)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="settings-panel">
+        <h3>Risk Management</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div>
+                <div class="form-group">
+                    <label for="max-trade-size">Maximum Trade Size ($)</label>
+                    <input type="number" id="max-trade-size" value="1000" min="10" max="10000">
+                </div>
+                <div class="form-group">
+                    <label for="daily-loss-limit">Daily Loss Limit ($)</label>
+                    <input type="number" id="daily-loss-limit" value="500" min="50" max="5000">
+                </div>
+            </div>
+            <div>
+                <div class="form-group">
+                    <label for="max-drawdown">Maximum Drawdown (%)</label>
+                    <input type="number" id="max-drawdown" value="20" min="5" max="50">
+                </div>
+                <div class="form-group">
+                    <label for="risk-per-trade">Risk Per Trade (%)</label>
+                    <input type="number" id="risk-per-trade" value="2" min="0.5" max="10" step="0.5">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="settings-panel">
+        <h3>Trading Interface</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div>
+                <div class="form-group">
+                    <label for="default-chart-type">Default Chart Type</label>
+                    <select id="default-chart-type">
+                        <option>Line Chart</option>
+                        <option>Candlestick</option>
+                        <option>Bar Chart</option>
+                        <option>Heikin Ashi</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="default-timeframe">Default Timeframe</label>
+                    <select id="default-timeframe">
+                        <option>1 Minute</option>
+                        <option>5 Minutes</option>
+                        <option>15 Minutes</option>
+                        <option>1 Hour</option>
+                        <option>4 Hours</option>
+                        <option>1 Day</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <div class="form-group">
+                    <label for="price-alerts">Price Alert Sensitivity</label>
+                    <select id="price-alerts">
+                        <option>Low</option>
+                        <option selected>Medium</option>
+                        <option>High</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="auto-logout">Auto Logout After</label>
+                    <select id="auto-logout">
+                        <option>15 minutes</option>
+                        <option>30 minutes</option>
+                        <option>1 hour</option>
+                        <option>4 hours</option>
+                        <option>Never</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="settings-panel">
+        <h3>Data & Privacy</h3>
+        <div class="settings-option">
+            <span>Share anonymous trading data</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="share-data">
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+        <div class="settings-option">
+            <span>Save chart layouts locally</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="save-layouts" checked>
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+        <div class="settings-option">
+            <span>Enable two-factor authentication</span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="two-factor">
+                <span class="toggle-slider"></span>
+            </label>
+        </div>
+        
+        <div style="margin-top: 20px;">
+            <button class="btn" style="background: #64748b; color: white; margin-right: 10px;">
+                Clear Cache
+            </button>
+            <button class="btn" style="background: #ef4444; color: white;">
+                Delete Account Data
+            </button>
+        </div>
+    </div>
+    
+    <div style="display: flex; gap: 15px; margin-top: 25px;">
+        <button class="btn" id="save-settings" style="background: var(--primary-color); color: white; flex: 1;">
+            Save All Settings
+        </button>
+        <button class="btn" id="reset-settings" style="background: #64748b; color: white; width: 150px;">
+            Reset to Defaults
+        </button>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Save settings button
+    const saveSettingsBtn = document.getElementById('save-settings');
+    if (saveSettingsBtn) {
+        saveSettingsBtn.addEventListener('click', function() {
+            const autoTrade = document.getElementById('auto-trade').checked;
+            const maxTradeSize = document.getElementById('max-trade-size').value;
+            const riskPerTrade = document.getElementById('risk-per-trade').value;
+            
+            window.tradingApp.showToast('Settings saved successfully!', 'success');
+            
+            // Update platform settings
+            if (window.tradingApp && window.tradingApp.platform) {
+                window.tradingApp.platform.updateUserSettings({
+                    autoTrade: autoTrade,
+                    maxTradeSize: parseFloat(maxTradeSize),
+                    riskPerTrade: parseFloat(riskPerTrade)
+                });
+            }
+        });
+    }
+
+    // Reset settings button
+    const resetSettingsBtn = document.getElementById('reset-settings');
+    if (resetSettingsBtn) {
+        resetSettingsBtn.addEventListener('click', function() {
+            if (confirm('Are you sure you want to reset all settings to defaults?')) {
+                // Reset all form elements to their default values
+                document.querySelectorAll('input, select').forEach(element => {
+                    if (element.type === 'checkbox') {
+                        element.checked = element.defaultChecked;
+                    } else if (element.type === 'number' || element.type === 'text') {
+                        element.value = element.defaultValue;
+                    } else if (element.tagName === 'SELECT') {
+                        element.selectedIndex = 0;
+                    }
+                });
+                
+                window.tradingApp.showToast('Settings reset to defaults', 'success');
+            }
+        });
+    }
+
+    // Theme change handler
+    const themeSelect = document.getElementById('theme');
+    if (themeSelect) {
+        themeSelect.addEventListener('change', function() {
+            const theme = this.value;
+            window.tradingApp.showToast(`Theme changed to ${theme} mode`, 'success');
+            // In a real app, you would apply the theme change here
+        });
+    }
+});
+</script>
