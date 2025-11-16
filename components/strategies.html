@@ -1,0 +1,159 @@
+<div class="content-section" id="strategies-section">
+    <h2>Trading Strategies</h2>
+    <div class="strategy-panel">
+        <h3>Automated Trading Bots</h3>
+        <div class="strategy-grid">
+            <div class="strategy-card active">
+                <h4>Trend Following</h4>
+                <div class="strategy-status status-active">ACTIVE</div>
+                <p>Follows market trends with moving averages</p>
+                <div style="margin-top: 15px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span>Win Rate:</span>
+                        <span class="positive">72%</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span>Total Profit:</span>
+                        <span class="positive">+$1,240</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>Active Trades:</span>
+                        <span>3</span>
+                    </div>
+                </div>
+            </div>
+            <div class="strategy-card">
+                <h4>Mean Reversion</h4>
+                <div class="strategy-status status-inactive">INACTIVE</div>
+                <p>Capitalizes on price returning to average</p>
+                <div style="margin-top: 15px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span>Win Rate:</span>
+                        <span class="positive">65%</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span>Total Profit:</span>
+                        <span class="positive">+$890</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>Active Trades:</span>
+                        <span>0</span>
+                    </div>
+                </div>
+            </div>
+            <div class="strategy-card">
+                <h4>Breakout Strategy</h4>
+                <div class="strategy-status status-inactive">INACTIVE</div>
+                <p>Trades breakouts from consolidation patterns</p>
+                <div style="margin-top: 15px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span>Win Rate:</span>
+                        <span class="positive">58%</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span>Total Profit:</span>
+                        <span class="positive">+$720</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>Active Trades:</span>
+                        <span>0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="strategy-panel">
+        <h3>Strategy Configuration</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div>
+                <div class="form-group">
+                    <label>Risk per Trade (%)</label>
+                    <input type="number" id="risk-per-trade" value="2" min="0.5" max="10" step="0.5">
+                </div>
+                <div class="form-group">
+                    <label>Daily Loss Limit</label>
+                    <input type="number" id="daily-loss-limit" value="500" min="100" max="5000">
+                </div>
+                <div class="form-group">
+                    <label>Maximum Trades per Day</label>
+                    <input type="number" id="max-trades-day" value="20" min="5" max="100">
+                </div>
+            </div>
+            <div>
+                <div class="form-group">
+                    <label>Trading Hours</label>
+                    <select id="trading-hours">
+                        <option>24/5 (Market Hours)</option>
+                        <option>Asian Session Only</option>
+                        <option>European Session Only</option>
+                        <option>US Session Only</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Assets to Trade</label>
+                    <select multiple id="trading-assets" style="height: 120px;">
+                        <option selected>EUR/USD</option>
+                        <option selected>GBP/USD</option>
+                        <option selected>USD/JPY</option>
+                        <option>USD/CHF</option>
+                        <option>AUD/USD</option>
+                        <option>USD/CAD</option>
+                        <option>Gold</option>
+                        <option>Silver</option>
+                        <option>BTC/USD</option>
+                        <option>ETH/USD</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <button class="btn" id="save-strategy-config" style="background: var(--primary-color); color: white; width: 200px; margin-top: 20px;">
+            Save Configuration
+        </button>
+    </div>
+
+    <div class="strategy-panel">
+        <h3>Strategy Performance</h3>
+        <div class="chart-container" style="height: 300px;">
+            <canvas id="strategy-performance-chart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+// Strategy-specific JavaScript
+document.addEventListener('DOMContentLoaded', function() {
+    // Strategy card activation
+    const strategyCards = document.querySelectorAll('.strategy-card');
+    strategyCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const isActive = this.classList.contains('active');
+            const statusElement = this.querySelector('.strategy-status');
+            const strategyName = this.querySelector('h4').textContent;
+            
+            if (isActive) {
+                this.classList.remove('active');
+                statusElement.textContent = 'INACTIVE';
+                statusElement.className = 'strategy-status status-inactive';
+                window.tradingApp.showToast(`Strategy ${strategyName} deactivated`, 'success');
+            } else {
+                this.classList.add('active');
+                statusElement.textContent = 'ACTIVE';
+                statusElement.className = 'strategy-status status-active';
+                window.tradingApp.showToast(`Strategy ${strategyName} activated`, 'success');
+            }
+        });
+    });
+
+    // Save configuration button
+    const saveConfigBtn = document.getElementById('save-strategy-config');
+    if (saveConfigBtn) {
+        saveConfigBtn.addEventListener('click', function() {
+            const riskPerTrade = document.getElementById('risk-per-trade').value;
+            const dailyLossLimit = document.getElementById('daily-loss-limit').value;
+            
+            window.tradingApp.showToast(`Strategy configuration saved (Risk: ${riskPerTrade}%, Daily Limit: $${dailyLossLimit})`, 'success');
+        });
+    }
+});
+</script>

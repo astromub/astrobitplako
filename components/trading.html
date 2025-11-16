@@ -1,0 +1,94 @@
+<div class="content-section active" id="trading-section">
+    <h2>Quick Trading</h2>
+    <div class="dashboard-grid">
+        <div class="trading-panel">
+            <div class="panel-header">
+                <h2>Express Trading</h2>
+                <div class="asset-selector">
+                    <div class="asset-badge active">EUR/USD</div>
+                    <div class="asset-badge">GBP/USD</div>
+                    <div class="asset-badge">USD/JPY</div>
+                    <div class="asset-badge">BTC/USD</div>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="trading-chart"></canvas>
+            </div>
+            
+            <div class="trading-controls">
+                <div>
+                    <div class="trade-type-selector">
+                        <div class="trade-type active">30 Seconds</div>
+                        <div class="trade-type">1 Minute</div>
+                        <div class="trade-type">5 Minutes</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Quick Amounts</label>
+                        <div class="amount-buttons">
+                            <button class="amount-btn" data-amount="25">$25</button>
+                            <button class="amount-btn active" data-amount="50">$50</button>
+                            <button class="amount-btn" data-amount="100">$100</button>
+                            <button class="amount-btn" data-amount="200">$200</button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Custom Amount</label>
+                        <input type="number" id="quick-trade-amount" value="50" min="10" max="1000">
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="form-group">
+                        <label>Potential Return</label>
+                        <input type="text" id="quick-payout" value="$92.50" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Current Trend</label>
+                        <input type="text" id="current-trend" value="Bullish ↗️" readonly>
+                    </div>
+                    
+                    <div class="trade-buttons">
+                        <button class="btn btn-call" id="quick-call-btn">
+                            CALL ↑<br>
+                            <small>85% Payout</small>
+                        </button>
+                        <button class="btn btn-put" id="quick-put-btn">
+                            PUT ↓<br>
+                            <small>85% Payout</small>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="quick-stats">
+            <h3>Market Signals</h3>
+            <div class="market-grid">
+                <div class="market-item">
+                    <div style="font-weight: 600;">EUR/USD</div>
+                    <div style="font-size: 1.2rem; margin: 5px 0;">1.0854</div>
+                    <div class="positive">STRONG BUY</div>
+                </div>
+                <div class="market-item">
+                    <div style="font-weight: 600;">GBP/USD</div>
+                    <div style="font-size: 1.2rem; margin: 5px 0;">1.2658</div>
+                    <div class="positive">BUY</div>
+                </div>
+                <div class="market-item">
+                    <div style="font-weight: 600;">USD/JPY</div>
+                    <div style="font-size: 1.2rem; margin: 5px 0;">151.25</div>
+                    <div class="negative">SELL</div>
+                </div>
+                <div class="market-item">
+                    <div style="font-weight: 600;">BTC/USD</div>
+                    <div style="font-size: 1.2rem; margin: 5px 0;">61,520</div>
+                    <div class="positive">BUY</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

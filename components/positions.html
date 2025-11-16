@@ -1,0 +1,45 @@
+<div class="content-section active" id="positions-section">
+    <h2>Active Positions</h2>
+    <div class="dashboard-grid">
+        <div class="trading-panel">
+            <h3>Open Trades</h3>
+            <table class="positions-table">
+                <thead>
+                    <tr>
+                        <th>Asset</th>
+                        <th>Direction</th>
+                        <th>Amount</th>
+                        <th>Entry Price</th>
+                        <th>Current Price</th>
+                        <th>Time Left</th>
+                        <th>Potential P/L</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="open-positions-body">
+                    <tr>
+                        <td colspan="8" style="text-align: center; color: #94a3b8;">No open positions</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="quick-stats">
+            <h3>Position Summary</h3>
+            <div class="stat-cards" style="grid-template-columns: 1fr;">
+                <div class="stat-card">
+                    <div class="stat-value" id="total-exposure">$0.00</div>
+                    <div class="stat-label">Total Exposure</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="potential-profit">$0.00</div>
+                    <div class="stat-label">Potential Profit</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="potential-loss">$0.00</div>
+                    <div class="stat-label">Potential Loss</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

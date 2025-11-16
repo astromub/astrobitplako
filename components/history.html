@@ -1,0 +1,186 @@
+<div class="content-section" id="history-section">
+    <h2>Trade History</h2>
+    <div class="history-panel">
+        <div class="history-filters">
+            <button class="filter-btn active" data-filter="all">All Trades</button>
+            <button class="filter-btn" data-filter="today">Today</button>
+            <button class="filter-btn" data-filter="week">This Week</button>
+            <button class="filter-btn" data-filter="month">This Month</button>
+            <button class="filter-btn" data-filter="winning">Winning Trades</button>
+            <button class="filter-btn" data-filter="losing">Losing Trades</button>
+        </div>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <div>
+                <label for="history-search" style="margin-right: 10px;">Search:</label>
+                <input type="text" id="history-search" placeholder="Search by asset..." style="width: 200px;">
+            </div>
+            <div>
+                <label for="history-sort" style="margin-right: 10px;">Sort by:</label>
+                <select id="history-sort">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="profit">Highest Profit</option>
+                    <option value="loss">Highest Loss</option>
+                </select>
+            </div>
+        </div>
+        
+        <table class="positions-table">
+            <thead>
+                <tr>
+                    <th>Date/Time</th>
+                    <th>Asset</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Duration</th>
+                    <th>Entry Price</th>
+                    <th>Exit Price</th>
+                    <th>Result</th>
+                    <th>P/L</th>
+                </tr>
+            </thead>
+            <tbody id="trade-history-body">
+                <tr>
+                    <td>2024-05-15 14:30:25</td>
+                    <td>EUR/USD</td>
+                    <td>CALL</td>
+                    <td>$100</td>
+                    <td>60s</td>
+                    <td>1.08542</td>
+                    <td>1.08615</td>
+                    <td><span class="positive">WIN</span></td>
+                    <td class="positive">+$85.00</td>
+                </tr>
+                <tr>
+                    <td>2024-05-15 13:45:12</td>
+                    <td>GBP/USD</td>
+                    <td>PUT</td>
+                    <td>$50</td>
+                    <td>5m</td>
+                    <td>1.26580</td>
+                    <td>1.26420</td>
+                    <td><span class="positive">WIN</span></td>
+                    <td class="positive">+$42.50</td>
+                </tr>
+                <tr>
+                    <td>2024-05-15 12:20:33</td>
+                    <td>USD/JPY</td>
+                    <td>CALL</td>
+                    <td>$200</td>
+                    <td>15m</td>
+                    <td>151.25</td>
+                    <td>150.95</td>
+                    <td><span class="negative">LOSS</span></td>
+                    <td class="negative">-$200.00</td>
+                </tr>
+                <tr>
+                    <td>2024-05-14 16:15:47</td>
+                    <td>Gold</td>
+                    <td>PUT</td>
+                    <td>$150</td>
+                    <td>1h</td>
+                    <td>2185.40</td>
+                    <td>2182.80</td>
+                    <td><span class="positive">WIN</span></td>
+                    <td class="positive">+$127.50</td>
+                </tr>
+                <tr>
+                    <td>2024-05-14 11:30:19</td>
+                    <td>EUR/USD</td>
+                    <td>CALL</td>
+                    <td>$75</td>
+                    <td>30s</td>
+                    <td>1.08450</td>
+                    <td>1.08420</td>
+                    <td><span class="negative">LOSS</span></td>
+                    <td class="negative">-$75.00</td>
+                </tr>
+                <tr>
+                    <td>2024-05-13 15:45:08</td>
+                    <td>BTC/USD</td>
+                    <td>CALL</td>
+                    <td>$300</td>
+                    <td>5m</td>
+                    <td>61520</td>
+                    <td>61850</td>
+                    <td><span class="positive">WIN</span></td>
+                    <td class="positive">+$255.00</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+            <div style="color: #94a3b8;">
+                Showing 6 of 156 trades
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button class="filter-btn">Previous</button>
+                <button class="filter-btn active">1</button>
+                <button class="filter-btn">2</button>
+                <button class="filter-btn">3</button>
+                <button class="filter-btn">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="strategy-panel" style="margin-top: 25px;">
+        <h3>Export Trade History</h3>
+        <div style="display: flex; gap: 15px; align-items: center;">
+            <select id="export-format" style="width: 150px;">
+                <option>CSV Format</option>
+                <option>Excel Format</option>
+                <option>PDF Report</option>
+            </select>
+            <select id="export-date-range" style="width: 180px;">
+                <option>Last 7 Days</option>
+                <option>Last 30 Days</option>
+                <option>Last 90 Days</option>
+                <option>Custom Range</option>
+            </select>
+            <button class="btn" style="background: var(--primary-color); color: white;">
+                Export Data
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Filter functionality
+    const filterButtons = document.querySelectorAll('.filter-btn[data-filter]');
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Remove active class from all filter buttons
+            filterButtons.forEach(b => b.classList.remove('active'));
+            // Add active class to clicked button
+            this.classList.add('active');
+            
+            const filter = this.getAttribute('data-filter');
+            window.tradingApp.showToast(`Showing ${filter} trades`, 'success');
+            
+            // In a real app, you would filter the table data here
+        });
+    });
+
+    // Search functionality
+    const searchInput = document.getElementById('history-search');
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            // In a real app, you would filter the table based on search term
+            if (searchTerm) {
+                window.tradingApp.showToast(`Searching for: ${searchTerm}`, 'success');
+            }
+        });
+    }
+
+    // Sort functionality
+    const sortSelect = document.getElementById('history-sort');
+    if (sortSelect) {
+        sortSelect.addEventListener('change', function() {
+            window.tradingApp.showToast(`Sorted by: ${this.options[this.selectedIndex].text}`, 'success');
+        });
+    }
+});
+</script>
