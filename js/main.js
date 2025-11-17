@@ -124,8 +124,8 @@ class BinaryTradingApp {
                 const sectionHtml = await this.fetchComponent(`${section}.html`);
                 contentContainer.innerHTML = sectionHtml;
                 
-                // Initialize section-specific functionality - FIXED TYPO HERE
-                this.initSection(section); // Fixed from "iniSection" to "initSection"
+                // Initialize section-specific functionality
+                this.initSection(section);
                 
                 console.log('Section loaded successfully:', section);
             }
@@ -138,7 +138,7 @@ class BinaryTradingApp {
         }
     }
 
-    // Section initialization methods - ADDED MISSING METHOD
+    // Section initialization methods
     initSection(section) {
         console.log('Initializing section:', section);
         switch (section) {
@@ -189,6 +189,22 @@ class BinaryTradingApp {
             // Handle trade buttons
             if (e.target.id === 'call-btn' || e.target.id === 'put-btn') {
                 this.handleTradeButton(e.target);
+            }
+            
+            // Handle strategy cards
+            if (e.target.closest('.strategy-card')) {
+                const card = e.target.closest('.strategy-card');
+                this.handleStrategyCard(card);
+            }
+            
+            // Handle filter buttons
+            if (e.target.classList.contains('filter-btn')) {
+                this.handleFilterButton(e.target);
+            }
+            
+            // Handle save buttons
+            if (e.target.id === 'save-settings' || e.target.id === 'save-strategy-config') {
+                this.handleSaveButton(e.target);
             }
         });
 
@@ -264,6 +280,41 @@ class BinaryTradingApp {
             this.showToast(`Trade executed successfully!`, 'success');
             this.updateUI();
         }, 1000);
+    }
+
+    handleStrategyCard(card) {
+        const isActive = card.classList.contains('active');
+        const statusElement = card.querySelector('.strategy-status');
+        const strategyName = card.querySelector('h4').textContent;
+        
+        if (isActive) {
+            card.classList.remove('active');
+            statusElement.textContent = 'INACTIVE';
+            statusElement.className = 'strategy-status status-inactive';
+            this.showToast(`Strategy ${strategyName} deactivated`, 'success');
+        } else {
+            card.classList.add('active');
+            statusElement.textContent = 'ACTIVE';
+            statusElement.className = 'strategy-status status-active';
+            this.showToast(`Strategy ${strategyName} activated`, 'success');
+        }
+    }
+
+    handleFilterButton(button) {
+        const filterContainer = button.closest('.history-filters');
+        if (filterContainer) {
+            filterContainer.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+        }
+        button.classList.add('active');
+        
+        const filter = button.textContent;
+        this.showToast(`Filter applied: ${filter}`, 'success');
+    }
+
+    handleSaveButton(button) {
+        this.showToast('Settings saved successfully!', 'success');
     }
 
     updatePayout() {
@@ -454,12 +505,113 @@ class BinaryTradingApp {
         this.setupSettingsEventListeners();
     }
 
-    // Placeholder methods for section-specific functionality
+    // Chart initialization methods
     setupDashboardCharts() {
         console.log('Setting up dashboard charts...');
-        // Chart initialization would go here
+        
+        // Initialize price chart
+        const priceChart = document.getElementById('price-chart');
+        if (priceChart) {
+            this.createSampleChart('price-chart', 'line', '#3b82f6');
+        }
+        
+        // Initialize performance chart
+        const performanceChart = document.getElementById('performance-chart');
+        if (performanceChart) {
+            this.createSampleChart('performance-chart', 'bar', '#10b981');
+        }
     }
 
+    setupAnalyticsCharts() {
+        console.log('Setting up analytics charts...');
+        
+        // Initialize equity chart
+        const equityChart = document.getElementById('equity-chart');
+        if (equityChart) {
+            this.createSampleChart('equity-chart', 'line', '#8b5cf6');
+        }
+        
+        // Initialize asset performance chart
+        const assetChart = document.getElementById('asset-performance-chart');
+        if (assetChart) {
+            this.createSampleChart('asset-performance-chart', 'doughnut', '');
+        }
+        
+        // Initialize trade distribution chart
+        const tradeChart = document.getElementById('trade-distribution-chart');
+        if (tradeChart) {
+            this.createSampleChart('trade-distribution-chart', 'pie', '');
+        }
+    }
+
+    createSampleChart(canvasId, type, color) {
+        const ctx = document.getElementById(canvasId).getContext('2d');
+        
+        // Sample data based on chart type
+        let data, options;
+        
+        if (type === 'line') {
+            data = {
+                labels: Array.from({length: 20}, (_, i) => ''),
+                datasets: [{
+                    label: 'Price',
+                    data: Array.from({length: 20}, () => Math.random() * 100 + 100),
+                    borderColor: color,
+                    backgroundColor: color + '20',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
+                }]
+            };
+            options = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { display: false },
+                    y: { 
+                        display: true,
+                        position: 'right',
+                        grid: { color: 'rgba(255,255,255,0.1)' }
+                    }
+                }
+            };
+        } else if (type === 'bar') {
+            data = {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+                datasets: [{
+                    label: 'P/L',
+                    data: [150, -80, 220, 180, 320],
+                    backgroundColor: ['#10b981', '#ef4444', '#10b981', '#10b981', '#10b981']
+                }]
+            };
+            options = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } }
+            };
+        } else if (type === 'doughnut' || type === 'pie') {
+            data = {
+                labels: ['EUR/USD', 'GBP/USD', 'USD/JPY', 'Gold'],
+                datasets: [{
+                    data: [45, 25, 20, 10],
+                    backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6']
+                }]
+            };
+            options = {
+                responsive: true,
+                maintainAspectRatio: false
+            };
+        }
+        
+        return new Chart(ctx, {
+            type: type,
+            data: data,
+            options: options
+        });
+    }
+
+    // Placeholder methods for section-specific functionality
     setupTradingEventListeners() {
         console.log('Setting up trading event listeners...');
         // Already handled by main event delegation
@@ -478,11 +630,6 @@ class BinaryTradingApp {
     setupStrategyEventListeners() {
         console.log('Setting up strategy event listeners...');
         // Setup strategy-related event listeners
-    }
-
-    setupAnalyticsCharts() {
-        console.log('Setting up analytics charts...');
-        // Setup analytics charts
     }
 
     updateTradeHistoryTable() {
