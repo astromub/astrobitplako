@@ -124,8 +124,8 @@ class BinaryTradingApp {
                 const sectionHtml = await this.fetchComponent(`${section}.html`);
                 contentContainer.innerHTML = sectionHtml;
                 
-                // Initialize section-specific functionality
-                this.initSection(section);
+                // Initialize section-specific functionality - FIXED TYPO HERE
+                this.initSection(section); // Fixed from "iniSection" to "initSection"
                 
                 console.log('Section loaded successfully:', section);
             }
@@ -135,6 +135,36 @@ class BinaryTradingApp {
             if (contentContainer) {
                 contentContainer.innerHTML = `<div class="error">Error loading ${section} section: ${error.message}</div>`;
             }
+        }
+    }
+
+    // Section initialization methods - ADDED MISSING METHOD
+    initSection(section) {
+        console.log('Initializing section:', section);
+        switch (section) {
+            case 'dashboard':
+                this.initDashboard();
+                break;
+            case 'trading':
+                this.initTrading();
+                break;
+            case 'positions':
+                this.initPositions();
+                break;
+            case 'strategies':
+                this.initStrategies();
+                break;
+            case 'analytics':
+                this.initAnalytics();
+                break;
+            case 'history':
+                this.initHistory();
+                break;
+            case 'settings':
+                this.initSettings();
+                break;
+            default:
+                console.warn('Unknown section:', section);
         }
     }
 
