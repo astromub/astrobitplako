@@ -10,6 +10,7 @@
             --bg-color: #0f172a;
             --text-color: #f1f5f9;
             --border-color: #334155;
+            --card-bg: #1e293b;
         }
 
         * {
@@ -25,11 +26,6 @@
             min-height: 100vh;
         }
 
-        .app-container {
-            display: flex;
-            min-height: 100vh;
-        }
-
         /* Header Styles */
         .header {
             background: #1e293b;
@@ -38,6 +34,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 70px;
         }
 
         .logo {
@@ -46,23 +48,38 @@
             color: var(--primary-color);
         }
 
+        /* App Container */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+            padding-top: 70px; /* Account for fixed header */
+        }
+
         /* Sidebar Styles */
         .sidebar {
             width: 250px;
             background: #1e293b;
             border-right: 1px solid var(--border-color);
-            padding: 1rem 0;
+            padding: 2rem 0;
+            position: fixed;
+            left: 0;
+            top: 70px;
+            bottom: 0;
+            overflow-y: auto;
         }
 
         .nav-item {
-            padding: 0.75rem 1.5rem;
+            padding: 1rem 1.5rem;
             cursor: pointer;
             border-left: 3px solid transparent;
             transition: all 0.3s ease;
+            color: #94a3b8;
+            font-weight: 500;
         }
 
         .nav-item:hover {
             background: #334155;
+            color: var(--text-color);
         }
 
         .nav-item.active {
@@ -75,7 +92,8 @@
         .main-content {
             flex: 1;
             padding: 2rem;
-            overflow-y: auto;
+            margin-left: 250px; /* Account for sidebar */
+            min-height: calc(100vh - 70px);
         }
 
         .content-section {
@@ -86,62 +104,128 @@
             display: block;
         }
 
-        /* Common Component Styles */
-        .content-section h2 {
-            margin-bottom: 1.5rem;
-            color: var(--text-color);
-        }
-
-        .trading-panel, .settings-panel, .strategy-panel, .history-panel {
-            background: #1e293b;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
+        /* Dashboard Styles */
         .stat-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .stat-card {
-            background: #1e293b;
+            background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1rem;
+            border-radius: 12px;
+            padding: 1.5rem;
             text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         }
 
         .stat-value {
-            font-size: 1.5rem;
+            font-size: 2rem;
             font-weight: bold;
             margin-bottom: 0.5rem;
+            color: var(--text-color);
         }
 
         .stat-label {
             color: #94a3b8;
-            font-size: 0.875rem;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            font-size: 0.8rem;
+            font-weight: 600;
         }
 
         .positive { color: #10b981; }
         .negative { color: #ef4444; }
 
+        /* Panel Layout */
+        .dashboard-panels {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .trading-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .trading-panel h3 {
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            font-size: 1.2rem;
+        }
+
+        .chart-container {
+            background: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            height: 300px;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        /* Button Styles */
         .btn {
-            padding: 0.5rem 1rem;
+            padding: 0.75rem 1.5rem;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 0.875rem;
-            transition: background 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-warning {
+            background: #f59e0b;
+            color: white;
         }
 
         .btn:hover {
             opacity: 0.9;
+            transform: translateY(-2px);
         }
 
+        .quick-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .quick-actions .btn {
+            width: 100%;
+        }
+
+        /* Form Styles */
         .form-group {
             margin-bottom: 1rem;
         }
@@ -150,22 +234,30 @@
             display: block;
             margin-bottom: 0.5rem;
             color: #94a3b8;
+            font-weight: 500;
         }
 
         .form-group input, .form-group select {
             width: 100%;
-            padding: 0.5rem;
+            padding: 0.75rem;
             background: #0f172a;
             border: 1px solid var(--border-color);
-            border-radius: 4px;
+            border-radius: 6px;
             color: var(--text-color);
+            font-size: 0.9rem;
         }
 
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        /* Settings Styles */
         .settings-option {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.75rem 0;
+            padding: 1rem 0;
             border-bottom: 1px solid var(--border-color);
         }
 
@@ -214,46 +306,41 @@
             transform: translateX(26px);
         }
 
+        /* Table Styles */
         .positions-table {
             width: 100%;
             border-collapse: collapse;
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
         }
 
         .positions-table th,
         .positions-table td {
-            padding: 0.75rem;
+            padding: 1rem;
             text-align: left;
             border-bottom: 1px solid var(--border-color);
         }
 
         .positions-table th {
+            background: #1e293b;
             color: #94a3b8;
             font-weight: 600;
+            font-size: 0.9rem;
         }
 
-        .chart-container {
-            background: #0f172a;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1rem;
-            margin: 1rem 0;
-        }
-
-        canvas {
-            width: 100% !important;
-            height: 300px !important;
-        }
-
+        /* Strategy Styles */
         .strategy-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1rem;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .strategy-card {
-            background: #1e293b;
+            background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 1.5rem;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -261,6 +348,7 @@
 
         .strategy-card:hover {
             border-color: var(--primary-color);
+            transform: translateY(-5px);
         }
 
         .strategy-card.active {
@@ -270,8 +358,8 @@
 
         .strategy-status {
             display: inline-block;
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
             font-size: 0.75rem;
             font-weight: bold;
             margin-bottom: 1rem;
@@ -287,21 +375,23 @@
             color: white;
         }
 
+        /* History Filter Styles */
         .history-filters {
             display: flex;
             gap: 0.5rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             flex-wrap: wrap;
         }
 
         .filter-btn {
             padding: 0.5rem 1rem;
-            background: #1e293b;
+            background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 4px;
+            border-radius: 6px;
             color: var(--text-color);
             cursor: pointer;
             transition: all 0.3s ease;
+            font-size: 0.9rem;
         }
 
         .filter-btn:hover,
@@ -309,29 +399,106 @@
             background: var(--primary-color);
             border-color: var(--primary-color);
         }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            z-index: 10000;
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+            
+            .main-content {
+                margin-left: 200px;
+                padding: 1rem;
+            }
+            
+            .dashboard-panels {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 60px;
+            }
+            
+            .nav-item span {
+                display: none;
+            }
+            
+            .main-content {
+                margin-left: 60px;
+            }
+            
+            .header {
+                padding: 1rem;
+            }
+            
+            .logo {
+                font-size: 1.2rem;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">TRADING PLATFORM</div>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+            <span style="color: #94a3b8;">Demo Account</span>
+            <span style="color: #10b981; font-weight: bold;">$10,000.00</span>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
     <div class="app-container">
-        <!-- Header -->
-        <div class="header">
-            <div class="logo">TRADING PLATFORM</div>
-            <div style="display: flex; gap: 1rem; align-items: center;">
-                <span>Demo Account</span>
-                <span style="color: #10b981;">$10,000.00</span>
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="nav-item active" data-section="dashboard">
+                <span>Dashboard</span>
+            </div>
+            <div class="nav-item" data-section="analytics">
+                <span>Analytics</span>
+            </div>
+            <div class="nav-item" data-section="strategies">
+                <span>Strategies</span>
+            </div>
+            <div class="nav-item" data-section="history">
+                <span>Trade History</span>
+            </div>
+            <div class="nav-item" data-section="settings">
+                <span>Settings</span>
             </div>
         </div>
 
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <div class="nav-item active" data-section="dashboard">Dashboard</div>
-            <div class="nav-item" data-section="analytics">Analytics</div>
-            <div class="nav-item" data-section="strategies">Strategies</div>
-            <div class="nav-item" data-section="history">Trade History</div>
-            <div class="nav-item" data-section="settings">Settings</div>
-        </div>
-
-        <!-- Main Content -->
+        <!-- Main Content Area -->
         <div class="main-content">
             <!-- Dashboard Section -->
             <div id="dashboard-section" class="content-section active">
@@ -359,7 +526,7 @@
                     </div>
                 </div>
                 
-                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem;">
+                <div class="dashboard-panels">
                     <div class="trading-panel">
                         <h3>Market Overview</h3>
                         <div class="chart-container">
@@ -369,10 +536,10 @@
                     
                     <div class="trading-panel">
                         <h3>Quick Actions</h3>
-                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                            <button class="btn" style="background: var(--primary-color); color: white;">New Trade</button>
-                            <button class="btn" style="background: #10b981; color: white;">Analytics</button>
-                            <button class="btn" style="background: #f59e0b; color: white;">Strategies</button>
+                        <div class="quick-actions">
+                            <button class="btn btn-primary">New Trade</button>
+                            <button class="btn btn-success" data-section="analytics">Analytics</button>
+                            <button class="btn btn-warning" data-section="strategies">Strategies</button>
                         </div>
                     </div>
                 </div>
@@ -380,36 +547,38 @@
 
             <!-- Analytics Section -->
             <div id="analytics-section" class="content-section">
-                <!-- Content will be loaded here -->
+                <!-- Analytics content will be loaded here -->
             </div>
 
             <!-- Strategies Section -->
             <div id="strategies-section" class="content-section">
-                <!-- Content will be loaded here -->
+                <!-- Strategies content will be loaded here -->
             </div>
 
             <!-- History Section -->
             <div id="history-section" class="content-section">
-                <!-- Content will be loaded here -->
+                <!-- History content will be loaded here -->
             </div>
 
             <!-- Settings Section -->
             <div id="settings-section" class="content-section">
-                <!-- Content will be loaded here -->
+                <!-- Settings content will be loaded here -->
             </div>
         </div>
     </div>
 
     <script>
-        // Main Application
+        // Main Trading Application
         const tradingApp = {
             currentSection: 'dashboard',
             
             init: function() {
-                console.log('Starting app initialization...');
+                console.log('🚀 Starting Trading Platform...');
                 this.setupNavigation();
-                this.loadSection('dashboard');
-                this.setupEventListeners();
+                this.setupQuickActions();
+                this.initializeDashboard();
+                this.loadSectionContent('dashboard');
+                this.showToast('Trading platform loaded successfully!', 'success');
             },
 
             setupNavigation: function() {
@@ -417,60 +586,77 @@
                 navItems.forEach(item => {
                     item.addEventListener('click', () => {
                         const section = item.getAttribute('data-section');
-                        this.loadSection(section);
-                        
-                        // Update active nav item
-                        navItems.forEach(nav => nav.classList.remove('active'));
-                        item.classList.add('active');
+                        this.switchSection(section);
                     });
                 });
             },
 
-            loadSection: function(sectionName) {
-                console.log('Loading section:', sectionName);
+            setupQuickActions: function() {
+                const quickActionBtns = document.querySelectorAll('.quick-actions .btn');
+                quickActionBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const section = btn.getAttribute('data-section');
+                        if (section) {
+                            this.switchSection(section);
+                        }
+                    });
+                });
+            },
+
+            switchSection: function(sectionName) {
+                console.log('Switching to section:', sectionName);
                 
-                // Hide all sections
+                // Update navigation
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                document.querySelector(`.nav-item[data-section="${sectionName}"]`).classList.add('active');
+                
+                // Update content sections
                 document.querySelectorAll('.content-section').forEach(section => {
                     section.classList.remove('active');
                 });
-
-                // Show current section
-                const currentSection = document.getElementById(`${sectionName}-section`);
-                if (currentSection) {
-                    currentSection.classList.add('active');
+                
+                const targetSection = document.getElementById(`${sectionName}-section`);
+                if (targetSection) {
+                    targetSection.classList.add('active');
                     this.currentSection = sectionName;
                     
-                    // Load section content if empty
-                    if (currentSection.innerHTML.trim() === '') {
-                        this.fetchSectionContent(sectionName);
-                    } else {
-                        this.initializeSection(sectionName);
-                    }
+                    // Load section content if needed
+                    this.loadSectionContent(sectionName);
                 }
             },
 
-            fetchSectionContent: function(sectionName) {
+            loadSectionContent: function(sectionName) {
                 const sectionElement = document.getElementById(`${sectionName}-section`);
                 
-                // For demo purposes, we'll create content directly
-                // In a real app, you would fetch from server
-                setTimeout(() => {
-                    switch(sectionName) {
-                        case 'analytics':
-                            sectionElement.innerHTML = this.getAnalyticsHTML();
-                            break;
-                        case 'strategies':
-                            sectionElement.innerHTML = this.getStrategiesHTML();
-                            break;
-                        case 'history':
-                            sectionElement.innerHTML = this.getHistoryHTML();
-                            break;
-                        case 'settings':
-                            sectionElement.innerHTML = this.getSettingsHTML();
-                            break;
-                    }
+                // Only load content if the section is empty
+                if (sectionElement.children.length <= 1) { // Only has h2 or is empty
+                    fetch(`${sectionName}.html`)
+                        .then(response => {
+                            if (!response.ok) throw new Error('Network response was not ok');
+                            return response.text();
+                        })
+                        .then(html => {
+                            sectionElement.innerHTML = html;
+                            this.initializeSection(sectionName);
+                            this.showToast(`${sectionName.charAt(0).toUpperCase() + sectionName.slice(1)} loaded successfully!`, 'success');
+                        })
+                        .catch(error => {
+                            console.error('Error loading section:', error);
+                            this.showToast(`Error loading ${sectionName}`, 'error');
+                            // Fallback: Show a message to the user
+                            sectionElement.innerHTML = `
+                                <div style="text-align: center; padding: 2rem;">
+                                    <h3>${sectionName.charAt(0).toUpperCase() + sectionName.slice(1)} Section</h3>
+                                    <p>Content could not be loaded. Please check your network connection.</p>
+                                    <button class="btn btn-primary" onclick="tradingApp.loadSectionContent('${sectionName}')">Retry</button>
+                                </div>
+                            `;
+                        });
+                } else {
                     this.initializeSection(sectionName);
-                }, 100);
+                }
             },
 
             initializeSection: function(sectionName) {
@@ -481,104 +667,112 @@
                         this.initializeDashboard();
                         break;
                     case 'analytics':
-                        this.initializeAnalytics();
+                        // Analytics will initialize itself
                         break;
                     case 'strategies':
-                        this.initializeStrategies();
+                        // Strategies will initialize itself
                         break;
                     case 'history':
-                        this.initializeHistory();
+                        // History will initialize itself
                         break;
                     case 'settings':
-                        this.initializeSettings();
+                        // Settings will initialize itself
                         break;
                 }
             },
 
-            // Section HTML content getters
-            getAnalyticsHTML: function() {
-                return `<!-- Paste your analytics.html content here -->`;
-            },
-
-            getStrategiesHTML: function() {
-                return `<!-- Paste your strategies.html content here -->`;
-            },
-
-            getHistoryHTML: function() {
-                return `<!-- Paste your history.html content here -->`;
-            },
-
-            getSettingsHTML: function() {
-                return `<!-- Paste your settings.html content here -->`;
-            },
-
-            // Section initializers
             initializeDashboard: function() {
                 console.log('Initializing dashboard...');
-                this.setupDashboardCharts();
-                this.updateDashboardStats();
+                this.setupDashboardChart();
+                this.updateLiveData();
             },
 
-            initializeAnalytics: function() {
-                console.log('Initializing analytics...');
-                // Analytics initialization code
-            },
-
-            initializeStrategies: function() {
-                console.log('Initializing strategies...');
-                // Strategies initialization code
-            },
-
-            initializeHistory: function() {
-                console.log('Initializing history...');
-                // History initialization code
-            },
-
-            initializeSettings: function() {
-                console.log('Initializing settings...');
-                // Settings initialization code
-            },
-
-            setupDashboardCharts: function() {
-                // Simple chart setup
+            setupDashboardChart: function() {
                 const ctx = document.getElementById('market-chart');
                 if (ctx) {
-                    // Basic chart drawing
                     const canvas = ctx.getContext('2d');
-                    canvas.fillStyle = '#10b981';
-                    canvas.fillRect(10, 10, 100, 50);
+                    const width = ctx.width = ctx.offsetWidth;
+                    const height = ctx.height = ctx.offsetHeight;
+                    
+                    // Draw a sample price chart
+                    canvas.clearRect(0, 0, width, height);
+                    
+                    // Draw grid
+                    canvas.strokeStyle = '#334155';
+                    canvas.lineWidth = 1;
+                    for (let i = 0; i <= width; i += width / 10) {
+                        canvas.beginPath();
+                        canvas.moveTo(i, 0);
+                        canvas.lineTo(i, height);
+                        canvas.stroke();
+                    }
+                    for (let i = 0; i <= height; i += height / 5) {
+                        canvas.beginPath();
+                        canvas.moveTo(0, i);
+                        canvas.lineTo(width, i);
+                        canvas.stroke();
+                    }
+                    
+                    // Draw price line
+                    canvas.beginPath();
+                    canvas.moveTo(0, height - 50);
+                    canvas.lineTo(width * 0.2, height - 100);
+                    canvas.lineTo(width * 0.4, height - 80);
+                    canvas.lineTo(width * 0.6, height - 120);
+                    canvas.lineTo(width * 0.8, height - 60);
+                    canvas.lineTo(width, height - 30);
+                    canvas.strokeStyle = '#10b981';
+                    canvas.lineWidth = 3;
+                    canvas.stroke();
+                    
+                    // Fill area under curve
+                    canvas.lineTo(width, height);
+                    canvas.lineTo(0, height);
+                    canvas.closePath();
+                    canvas.fillStyle = 'rgba(16, 185, 129, 0.1)';
+                    canvas.fill();
                 }
             },
 
-            updateDashboardStats: function() {
-                // Update dashboard statistics
-                console.log('Updating dashboard stats...');
-            },
-
-            setupEventListeners: function() {
-                console.log('Setting up event listeners...');
+            updateLiveData: function() {
+                // Simulate live data updates
+                setInterval(() => {
+                    const balanceElement = document.querySelector('.stat-card:nth-child(1) .stat-value');
+                    const winRateElement = document.querySelector('.stat-card:nth-child(2) .stat-value');
+                    
+                    if (balanceElement && winRateElement) {
+                        // Small random fluctuations for demo
+                        const currentBalance = parseFloat(balanceElement.textContent.replace('$', '').replace(',', ''));
+                        const newBalance = currentBalance + (Math.random() - 0.5) * 10;
+                        balanceElement.textContent = '$' + newBalance.toFixed(2);
+                        
+                        const currentWinRate = parseFloat(winRateElement.textContent);
+                        const newWinRate = Math.max(60, Math.min(75, currentWinRate + (Math.random() - 0.5)));
+                        winRateElement.textContent = Math.round(newWinRate) + '%';
+                    }
+                }, 5000);
             },
 
             showToast: function(message, type = 'success') {
-                // Simple toast notification
                 const toast = document.createElement('div');
+                toast.className = 'toast';
                 toast.textContent = message;
-                toast.style.cssText = `
-                    position: fixed;
-                    top: 20px;
-                    right: 20px;
-                    background: ${type === 'success' ? '#10b981' : '#ef4444'};
-                    color: white;
-                    padding: 12px 20px;
-                    border-radius: 4px;
-                    z-index: 1000;
-                `;
+                toast.style.background = type === 'success' ? '#10b981' : '#ef4444';
+                
                 document.body.appendChild(toast);
-                setTimeout(() => toast.remove(), 3000);
+                
+                setTimeout(() => {
+                    toast.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => {
+                        if (toast.parentNode) {
+                            toast.parentNode.removeChild(toast);
+                        }
+                    }, 300);
+                }, 3000);
             }
         };
 
-        // Initialize app when DOM is loaded
+        // Initialize the application when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
             tradingApp.init();
         });
