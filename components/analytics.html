@@ -124,45 +124,88 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize analytics charts when section is loaded
-    if (window.tradingApp && window.tradingApp.currentSection === 'analytics') {
+    const initAnalytics = function() {
         setTimeout(() => {
-            if (window.tradingApp.platform && window.tradingApp.platform.chartManager) {
-                // Equity curve chart
-                const equityData = {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                    datasets: [{
-                        label: 'Account Balance',
-                        data: [10000, 10200, 10500, 10300, 10800, 11000],
-                        borderColor: '#10b981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        borderWidth: 2,
-                        fill: true
-                    }]
-                };
-                
-                // Asset performance chart
-                const assetData = {
-                    labels: ['EUR/USD', 'GBP/USD', 'USD/JPY', 'Gold'],
-                    datasets: [{
-                        data: [45, 25, 20, 10],
-                        backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6']
-                    }]
-                };
-                
-                // Trade distribution chart
-                const tradeDistData = {
-                    labels: ['Winning Trades', 'Losing Trades'],
-                    datasets: [{
-                        data: [68, 32],
-                        backgroundColor: ['#10b981', '#ef4444']
-                    }]
-                };
-                
-                window.tradingApp.platform.chartManager.createPriceChart('equity-chart', 'Equity', equityData.datasets[0].data);
-                window.tradingApp.platform.chartManager.createPieChart('asset-performance-chart', assetData);
-                window.tradingApp.platform.chartManager.createPieChart('trade-distribution-chart', tradeDistData);
-            }
+            // Simple chart initialization without external dependencies
+            initCharts();
         }, 100);
+    };
+
+    const initCharts = function() {
+        // Equity curve chart
+        const equityCtx = document.getElementById('equity-chart');
+        if (equityCtx) {
+            // Simple canvas drawing for equity chart
+            const ctx = equityCtx.getContext('2d');
+            const width = equityCtx.width;
+            const height = equityCtx.height;
+            
+            // Draw a simple line chart
+            ctx.beginPath();
+            ctx.moveTo(0, height - 50);
+            ctx.lineTo(100, height - 100);
+            ctx.lineTo(200, height - 80);
+            ctx.lineTo(300, height - 120);
+            ctx.lineTo(400, height - 60);
+            ctx.lineTo(500, height - 30);
+            ctx.strokeStyle = '#10b981';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        // Asset performance chart (simple pie chart)
+        const assetCtx = document.getElementById('asset-performance-chart');
+        if (assetCtx) {
+            const ctx = assetCtx.getContext('2d');
+            // Simple pie chart representation
+            const colors = ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6'];
+            const data = [45, 25, 20, 10];
+            
+            let startAngle = 0;
+            for (let i = 0; i < data.length; i++) {
+                const sliceAngle = (data[i] / 100) * 2 * Math.PI;
+                ctx.beginPath();
+                ctx.arc(150, 75, 50, startAngle, startAngle + sliceAngle);
+                ctx.lineTo(150, 75);
+                ctx.fillStyle = colors[i];
+                ctx.fill();
+                startAngle += sliceAngle;
+            }
+        }
+
+        // Trade distribution chart
+        const tradeCtx = document.getElementById('trade-distribution-chart');
+        if (tradeCtx) {
+            const ctx = tradeCtx.getContext('2d');
+            // Simple bar chart
+            ctx.fillStyle = '#10b981';
+            ctx.fillRect(50, 100, 80, -60); // Winning trades
+            
+            ctx.fillStyle = '#ef4444';
+            ctx.fillRect(150, 100, 80, -28); // Losing trades
+        }
+    };
+
+    // Initialize when section becomes visible
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                const analyticsSection = document.getElementById('analytics-section');
+                if (analyticsSection && analyticsSection.style.display !== 'none') {
+                    initAnalytics();
+                }
+            }
+        });
+    });
+
+    const analyticsSection = document.getElementById('analytics-section');
+    if (analyticsSection) {
+        observer.observe(analyticsSection, { attributes: true });
+        
+        // Initial check
+        if (analyticsSection.style.display !== 'none') {
+            initAnalytics();
+        }
     }
 });
 </script>
