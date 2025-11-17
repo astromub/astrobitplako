@@ -69,11 +69,11 @@
             <div>
                 <div class="form-group">
                     <label>Risk per Trade (%)</label>
-                    <input type="number" id="risk-per-trade" value="2" min="0.5" max="10" step="0.5">
+                    <input type="number" id="strategy-risk-per-trade" value="2" min="0.5" max="10" step="0.5">
                 </div>
                 <div class="form-group">
                     <label>Daily Loss Limit</label>
-                    <input type="number" id="daily-loss-limit" value="500" min="100" max="5000">
+                    <input type="number" id="strategy-daily-loss-limit" value="500" min="100" max="5000">
                 </div>
                 <div class="form-group">
                     <label>Maximum Trades per Day</label>
@@ -123,6 +123,48 @@
 <script>
 // Strategy-specific JavaScript
 document.addEventListener('DOMContentLoaded', function() {
+    // Toast notification function
+    const showToast = function(message, type = 'success') {
+        const toast = document.createElement('div');
+        toast.textContent = message;
+        toast.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: ${type === 'success' ? '#10b981' : '#ef4444'};
+            color: white;
+            padding: 12px 20px;
+            border-radius: 4px;
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+        `;
+        
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
+            }, 300);
+        }, 3000);
+    };
+
+    // Add CSS for animations
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+    `;
+    document.head.appendChild(style);
+
     // Strategy card activation
     const strategyCards = document.querySelectorAll('.strategy-card');
     strategyCards.forEach(card => {
@@ -135,13 +177,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.classList.remove('active');
                 statusElement.textContent = 'INACTIVE';
                 statusElement.className = 'strategy-status status-inactive';
-                window.tradingApp.showToast(`Strategy ${strategyName} deactivated`, 'success');
+                showToast(`Strategy ${strategyName} deactivated`, 'success');
             } else {
+                // Deactivate all other strategies first
+                strategyCards.forEach(c => {
+                    c.classList.remove('active');
+                    c.querySelector('.strategy-status').textContent = 'INACTIVE';
+                    c.querySelector('.strategy-status').className = 'strategy-status status-inactive';
+                });
+                
+                // Activate clicked strategy
                 this.classList.add('active');
                 statusElement.textContent = 'ACTIVE';
                 statusElement.className = 'strategy-status status-active';
-                window.tradingApp.showToast(`Strategy ${strategyName} activated`, 'success');
+                showToast(`Strategy ${strategyName} activated`, 'success');
             }
+            
+            // Save active strategy to localStorage
+            const activeStrategies = Array.from(strategyCards)
+                .filter(card => card.classList.contains('active'))
+                .map(card => card.querySelector('h4').textContent);
+                
+            localStorage.setItem('activeStrategies', JSON.stringify(activeStrategies));
         });
     });
 
@@ -149,11 +206,99 @@ document.addEventListener('DOMContentLoaded', function() {
     const saveConfigBtn = document.getElementById('save-strategy-config');
     if (saveConfigBtn) {
         saveConfigBtn.addEventListener('click', function() {
-            const riskPerTrade = document.getElementById('risk-per-trade').value;
-            const dailyLossLimit = document.getElementById('daily-loss-limit').value;
+            const riskPerTrade = document.getElementById('strategy-risk-per-trade').value;
+            const dailyLossLimit = document.getElementById('strategy-daily-loss-limit').value;
             
-            window.tradingApp.showToast(`Strategy configuration saved (Risk: ${riskPerTrade}%, Daily Limit: $${dailyLossLimit})`, 'success');
+            showToast(`Strategy configuration saved (Risk: ${riskPerTrade}%, Daily Limit: $${dailyLossLimit})`, 'success');
+            
+            // Save strategy configuration
+            const strategyConfig = {
+                riskPerTrade: riskPerTrade,
+                dailyLossLimit: dailyLossLimit,
+                maxTrades: document.getElementById('max-trades-day').value,
+                tradingHours: document.getElementById('trading-hours').value,
+                assets: Array.from(document.getElementById('trading-assets').selectedOptions).map(opt => opt.value)
+            };
+            
+            localStorage.setItem('strategyConfig', JSON.stringify(strategyConfig));
         });
+    }
+
+    // Initialize strategy performance chart
+    const initStrategyChart = function() {
+        const chartCtx = document.getElementById('strategy-performance-chart');
+        if (chartCtx) {
+            const ctx = chartCtx.getContext('2d');
+            const width = chartCtx.width;
+            const height = chartCtx.height;
+            
+            // Draw a simple performance line
+            ctx.beginPath();
+            ctx.moveTo(0, height - 30);
+            ctx.lineTo(100, height - 80);
+            ctx.lineTo(200, height - 40);
+            ctx.lineTo(300, height - 90);
+            ctx.lineTo(400, height - 20);
+            ctx.lineTo(500, height - 10);
+            ctx.strokeStyle = '#3b82f6';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            
+            // Add points
+            const points = [[0, height-30], [100, height-80], [200, height-40], [300, height-90], [400, height-20], [500, height-10]];
+            points.forEach(point => {
+                ctx.beginPath();
+                ctx.arc(point[0], point[1], 4, 0, 2 * Math.PI);
+                ctx.fillStyle = '#3b82f6';
+                ctx.fill();
+            });
+        }
+    };
+
+    // Load saved strategies and configuration
+    const loadStrategies = function() {
+        // Load active strategies
+        const activeStrategies = JSON.parse(localStorage.getItem('activeStrategies') || '[]');
+        strategyCards.forEach(card => {
+            const strategyName = card.querySelector('h4').textContent;
+            if (activeStrategies.includes(strategyName)) {
+                card.classList.add('active');
+                card.querySelector('.strategy-status').textContent = 'ACTIVE';
+                card.querySelector('.strategy-status').className = 'strategy-status status-active';
+            }
+        });
+        
+        // Load strategy configuration
+        const strategyConfig = JSON.parse(localStorage.getItem('strategyConfig') || '{}');
+        if (strategyConfig.riskPerTrade) {
+            document.getElementById('strategy-risk-per-trade').value = strategyConfig.riskPerTrade;
+        }
+        if (strategyConfig.dailyLossLimit) {
+            document.getElementById('strategy-daily-loss-limit').value = strategyConfig.dailyLossLimit;
+        }
+    };
+
+    // Initialize when section is visible
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                const strategiesSection = document.getElementById('strategies-section');
+                if (strategiesSection && strategiesSection.style.display !== 'none') {
+                    initStrategyChart();
+                    loadStrategies();
+                }
+            }
+        });
+    });
+
+    const strategiesSection = document.getElementById('strategies-section');
+    if (strategiesSection) {
+        observer.observe(strategiesSection, { attributes: true });
+        
+        if (strategiesSection.style.display !== 'none') {
+            initStrategyChart();
+            loadStrategies();
+        }
     }
 });
 </script>
